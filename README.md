@@ -1,15 +1,72 @@
-# What is this?
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Density Simulator</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #eef;
+    }
+    .box {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      background: lightblue;
+      position: relative;
+      border: 2px solid #333;
+    }
+    .object {
+      width: 50px;
+      height: 50px;
+      background: red;
+      position: absolute;
+      left: 75px;
+      transition: top 0.5s;
+    }
+  </style>
+</head>
+<body>
 
-The github.dev web-based editor is a lightweight editing experience that runs entirely in your browser. You can navigate files and source code repositories from GitHub, and make and commit code changes.
+<h2>Density Simulator</h2>
 
-There are two ways to go directly to a VS Code environment in your browser and start coding:
+<label>Mass (kg):</label>
+<input type="range" id="mass" min="1" max="100" value="50"><br>
 
-* Press the . key on any repository or pull request.
-* Swap `.com` with `.dev` in the URL. For example, this repo https://github.com/github/dev becomes http://github.dev/github/dev
+<label>Volume (L):</label>
+<input type="range" id="volume" min="1" max="100" value="50"><br>
 
-Preview the gif below to get a quick demo of github.dev in action.
+<p id="output"></p>
 
-![github dev](https://user-images.githubusercontent.com/856858/130119109-4769f2d7-9027-4bc4-a38c-10f297499e8f.gif)
+<div class="box">
+  <div class="object" id="object"></div>
+</div>
 
-# Why?
-It’s a quick way to edit and navigate code. It's especially useful if you want to edit multiple files at a time or take advantage of all the powerful code editing features of Visual Studio Code when making a quick change. For more information, see our [documentation](https://github.co/codespaces-editor-help).
+<script>
+function update() {
+  let mass = document.getElementById("mass").value;
+  let volume = document.getElementById("volume").value;
+
+  let density = mass / volume;
+
+  let output = document.getElementById("output");
+  output.innerHTML = "Density: " + density.toFixed(2) + " kg/L";
+
+  let obj = document.getElementById("object");
+
+  // Water density = 1 kg/L
+  if (density > 1) {
+    obj.style.top = "130px"; // sinks
+  } else {
+    obj.style.top = "10px"; // floats
+  }
+}
+
+document.getElementById("mass").oninput = update;
+document.getElementById("volume").oninput = update;
+
+update();
+</script>
+
+</body>
+</html>
